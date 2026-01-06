@@ -20,6 +20,7 @@ class Scraper:
         return self.content[position]
 
 
+@retry
 def scrape(url: str):
     r = httpx.get(url)
 
