@@ -1,5 +1,10 @@
+from parser import load_logs, load_logs_stream
+
+
 def main():
-    print("Hello from log-file-analyzer!")
+    for log in load_logs_stream("./logs/logfiles.log"):
+        print(log)
+        input()
 
 
 if __name__ == "__main__":
