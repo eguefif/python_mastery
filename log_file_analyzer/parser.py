@@ -22,7 +22,7 @@ def parse_log_line(line: str) -> tuple:
         if c == " " and not ignore_space:
             tokens.append(token)
             token = ""
-        elif c == '"':
+        elif c in ['"', "[", "]"]:
             ignore_space = not ignore_space
         else:
             token += c
@@ -35,7 +35,7 @@ def is_success(code: str) -> bool:
     return int(code) <= 400
 
 
-def load_logs(filename: str, filter_successful=False) -> list[tuple[str]]:
+def load_logs(filename: str, filter_successful=False) -> list[tuple[str, ...]]:
     """
     Read a file and return a list that provides Tupple
 
@@ -51,7 +51,9 @@ def load_logs(filename: str, filter_successful=False) -> list[tuple[str]]:
         return [parse_log_line(line) for line in f.readlines()]
 
 
-def load_logs_stream(filename: str, filter_successful=False) -> Generator[tuple[str]]:
+def load_logs_stream(
+    filename: str, filter_successful=False
+) -> Generator[tuple[str, ...]]:
     """Read a file and return an iterator that provides Tupple
 
     filter_successful: returns http query with code lesser than 400
